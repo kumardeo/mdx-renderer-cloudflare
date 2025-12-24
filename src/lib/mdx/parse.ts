@@ -524,11 +524,13 @@ export function createParser({ remarkPlugins = [], rehypePlugins = [], remarkReh
       },
     };
 
+    const tree = state.root(hast);
+
     return {
       file,
       frontmatter,
       headings,
-      tree: state.root(hast),
+      tree,
     };
   };
 }

@@ -13,31 +13,91 @@ export function sum(num1, num2) {
 }
 
 # Heading 1
-
-{hello}
-
-We can use `frontmatter` variable: {frontmatter.title}
-
-Sum of 2 + 3 is {sum(2, 3)}
-
 ## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
 
-<Callout>
+# Paragraph
+
+This is a paragraph.
+
+# Codeblock
+
+This codeblock uses `@shikijs/rehype` plugin for syntax-highlighting:
+
+```ts
+import { load } from 'js-yaml';
+
+const regex = /^---(?:\r?\n|\r)(?:([\s\S]*?)(?:\r?\n|\r))?---(?:\r?\n|\r|$)/;
+
+export interface MatterResult {
+  data?: unknown;
+  stripped?: string;
+}
+
+export function matter(source: string): MatterResult {
+  const match = regex.exec(source);
+
+  if (match) {
+    return {
+      data: match[1] ? load(match[1]) : null,
+      stripped: source.slice(match[0].length),
+    };
+  }
+
+  return {};
+}
+```
+
+# Lists
+
+- Item 1
+- Item 2
+- Item 3
+- Item 4
+
+* Item 1
+* Item 2
+* Item 3
+* Item 4
+
+1. Item 1
+2. Item 2
+3. Item 3
+4. Item 4
+
+## Blockquote
+
+> This is a blockquote.
+
+# Expression
+
+This uses exported variable `hello`: {hello}
+
+This uses `frontmatter` variable: {frontmatter.title}
+
+This uses exported function `sum`: 2 + 3 = {sum(2, 3)}
+
+# JSX
+
+<div>This is div element.</div>
+
+<Callout title={hello}>
   Custom component
 </Callout>
 
+# JSX in expression
+
 {
-  frontmatter.authors.map(author => (<div>{author}</div>))
+  <div>div element</div>
 }
 
-`@shikijs/rehype` plugin:
-
-```ts
-import GitHubSlugger from 'github-slugger';
-
-export default function createGitHubSlugger() {
-  const slugger = new GitHubSlugger();
-
-  return (text: string) => slugger.slug(text);
+{
+  <Callout>Custom component in JSX expression.</Callout>
 }
-```
+
+{
+  frontmatter.authors.map(author => (<Author>{author}</Author>))
+}
