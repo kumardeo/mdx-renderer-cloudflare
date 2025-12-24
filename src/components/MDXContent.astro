@@ -1,0 +1,14 @@
+---
+import { parse } from '@/lib/parse-mdx';
+import MDXRenderer from './MDXRenderer';
+
+export interface Props {
+  mdx: string;
+}
+
+const { mdx } = Astro.props;
+
+const { tree } = await parse(mdx);
+---
+
+<MDXRenderer jast={tree} client:load/>
